@@ -33,7 +33,8 @@ public class InterpreterResult implements Serializable {
     SUCCESS,
     INCOMPLETE,
     ERROR,
-    KEEP_PREVIOUS_RESULT
+    KEEP_PREVIOUS_RESULT,
+    INCREMENT
   }
 
   /**
@@ -136,6 +137,10 @@ public class InterpreterResult implements Serializable {
 
   public String message() {
     return msg;
+  }
+
+  public void setMessage(String newMsg) {
+    msg = newMsg;
   }
 
   public Type type() {

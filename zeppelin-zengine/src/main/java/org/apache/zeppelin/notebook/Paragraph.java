@@ -584,4 +584,36 @@ public class Paragraph extends Job implements Serializable, Cloneable {
   private boolean isValidInterpreter(String replName) {
     return factory.getInterpreter(note.getId(), replName) != null;
   }
+
+  InterpreterResult tmpResult = null;
+  String tmpErrorMessage;
+  private transient Throwable tmpException;
+
+  public void setTmpResult(InterpreterResult value, Throwable t) {
+    this.tmpResult = value;
+    tmpException = t;
+    this.tmpErrorMessage = getStack(t);
+  }
+
+  public InterpreterResult getTmpResult()
+  {
+    return this.tmpResult;
+  }
+
+  public void clearTmpResult() {
+    if (this.tmpResult == null)
+      this.tmpResult = new InterpreterResult(Code.SUCCESS);
+    else this.tmpResult.setMessage("");
+  }
+
+  public String getTmpErrorMessage() {
+    return this.tmpErrorMessage;
+  }
+
+  public void appendTmpResult(String txt) {
+    if (tmpResult == null)
+      tmpResult = new InterpreterResult(Code.INCREMENT, txt);
+    else
+      tmpResult.setMessage(tmpResult.message() + txt);
+  }
 }

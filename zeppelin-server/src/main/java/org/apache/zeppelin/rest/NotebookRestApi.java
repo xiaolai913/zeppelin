@@ -860,4 +860,34 @@ public class NotebookRestApi {
     }
   }
 
+  /**
+   * 清理指定notebook与指定paragraph的tmpResult driver日志内容
+   * @param notebookId
+   * @param paragraphIndex   注意:这里的参数是paragraph在notebook中的序号
+   * @return
+   * @throws IOException
+   * @throws IllegalArgumentException
+   */
+  @POST
+  @Path("{notebookId}/paragraph/{paragraphIndex}/clearout")
+  public Response clearParagraphOut(@PathParam("notebookId") String notebookId,
+                                    @PathParam("paragraphIndex") String paragraphIndex) throws Exception {
+    LOG.info("clear paragraph job out {} {} ", notebookId, paragraphIndex);
+
+    Note note = notebook.getNote(notebookId);
+    if (note == null) {
+      return new JsonResponse<>(Status.NOT_FOUND, "note not found.").build();
+    }
+
+    //Paragraph paragraph = note.getParagraph(paragraphId);
+    List<Paragraph> paragraphs = note.getParagraphs();
+    Paragraph paragraph = paragraphs.get(Integer.valueOf(paragraphIndex));
+
+    if (paragraph == null) {
+      return new JsonResponse<>(Status.NOT_FOUND, "paragraph not found.").build();
+    }
+    note.clearParagraphOutput(paragraph.getId());
+    return new JsonResponse<>(Status.OK).build();
+  }
+
 }

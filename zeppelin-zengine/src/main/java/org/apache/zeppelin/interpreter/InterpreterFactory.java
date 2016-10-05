@@ -662,7 +662,7 @@ public class InterpreterFactory implements InterpreterGroupFactory {
     }
 
 
-    if (dependencies.size() > 0) {
+    if (dependencies != null && dependencies.size() > 0) {
       loadInterpreterDependencies(interpreterSetting);
     }
 

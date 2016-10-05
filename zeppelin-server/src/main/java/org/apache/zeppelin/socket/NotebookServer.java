@@ -1241,6 +1241,9 @@ public class NotebookServer extends WebSocketServlet implements
             .put("noteId", noteId)
             .put("paragraphId", paragraphId)
             .put("data", output);
+    // append paragraph output log to tmpResult
+    Paragraph paragraph = notebook().getNote(noteId).getParagraph(paragraphId);
+    paragraph.appendTmpResult(output);
     broadcast(noteId, msg);
   }
 
